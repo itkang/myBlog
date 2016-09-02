@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Ryan's blog]]></title>
+  <link href="blog.itkang.com/atom.xml" rel="self"/>
+  <link href="blog.itkang.com/"/>
+  <updated>2016-09-02T10:25:16+08:00</updated>
+  <id>blog.itkang.com/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://www.coderforart.com/">CoderForArt</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[test]]></title>
+    <link href="blog.itkang.com/14727830831718.html"/>
+    <updated>2016-09-02T10:24:43+08:00</updated>
+    <id>blog.itkang.com/14727830831718.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[123]]></title>
+    <link href="blog.itkang.com/14727828776702.html"/>
+    <updated>2016-09-02T10:21:17+08:00</updated>
+    <id>blog.itkang.com/14727828776702.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tet]]></title>
+    <link href="blog.itkang.com/14727828735415.html"/>
+    <updated>2016-09-02T10:21:13+08:00</updated>
+    <id>blog.itkang.com/14727828735415.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[]]></title>
+    <link href="blog.itkang.com/14727284110565.html"/>
+    <updated>2016-09-01T19:13:31+08:00</updated>
+    <id>blog.itkang.com/14727284110565.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+</feed>
