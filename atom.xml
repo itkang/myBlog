@@ -4,7 +4,7 @@
   <title><![CDATA[Ryan's blog]]></title>
   <link href="blog.itkang.com/atom.xml" rel="self"/>
   <link href="blog.itkang.com/"/>
-  <updated>2016-09-02T11:21:40+08:00</updated>
+  <updated>2016-09-02T12:09:22+08:00</updated>
   <id>blog.itkang.com/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -24,6 +24,9 @@ cd /home/itkang/Blog;git pull origin master;git add .;git commit -m &quot;upgrad
 ssh $USER@$SERVER &#39;cd /home/myBlog;git pull origin master;&#39; #远程服务器pull文件
 echo &#39;all upgrade&#39;;
 </code></pre>
+
+<p>执行效果如下所示<br/>
+<img src="media/14727867129045/14727949592797.jpg" alt=""/></p>
 
 ]]></content>
   </entry>
