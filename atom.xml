@@ -4,7 +4,7 @@
   <title><![CDATA[Ryan's blog]]></title>
   <link href="blog.itkang.com/atom.xml" rel="self"/>
   <link href="blog.itkang.com/"/>
-  <updated>2016-09-02T10:46:50+08:00</updated>
+  <updated>2016-09-02T10:48:50+08:00</updated>
   <id>blog.itkang.com/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -24,7 +24,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[123]]></title>
+    <title type="html"><![CDATA[测试自动更新]]></title>
     <link href="blog.itkang.com/14727828776702.html"/>
     <updated>2016-09-02T10:21:17+08:00</updated>
     <id>blog.itkang.com/14727828776702.html</id>
