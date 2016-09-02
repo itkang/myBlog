@@ -4,7 +4,7 @@
   <title><![CDATA[Ryan's blog]]></title>
   <link href="blog.itkang.com/atom.xml" rel="self"/>
   <link href="blog.itkang.com/"/>
-  <updated>2016-09-02T13:42:56+08:00</updated>
+  <updated>2016-09-02T13:47:21+08:00</updated>
   <id>blog.itkang.com/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -26,7 +26,10 @@ echo &#39;all upgrade&#39;;
 </code></pre>
 
 <p>执行效果如下所示<br/>
-<img src="media/14727867129045/14727949592797.jpg" alt=""/></p>
+<style><br/>
+    img { width:100px }<br/>
+</style><br/>
+<img src="media/14727867129045/14727949592797.jpg" alt="" style="width:482px;"/></p>
 
 ]]></content>
   </entry>
