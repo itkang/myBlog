@@ -96,6 +96,8 @@
 						
 						  <li id=""><a target="_self" href="spring.html">Spring</a></li>
 						
+						  <li id=""><a target="_self" href="linux.html">Linux</a></li>
+						
 						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
 						
 						</ul>
@@ -130,6 +132,34 @@
 <div itemscope itemtype="http://schema.org/Blog">
 
 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
+				<time datetime="2016-09-02T11:25:12+08:00" itemprop="datePublished">2016/9/2 11:25 上午</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='linux.html'>Linux</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="14727867129045.html" itemprop="url">
+		使用github作为中转自动更新服务器中的文件</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<pre><code>#! /bin/bash
+cd /home/itkang/Blog;git pull origin master;git add .;git commit -m &quot;upgrade&quot;;git push origin master; #本地文件提交到github
+ssh $USER@$SERVER &#39;cd /home/myBlog;git pull origin master;&#39; #远程服务器pull文件
+echo &#39;all upgrade&#39;;
+</code></pre>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
