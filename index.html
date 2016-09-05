@@ -135,6 +135,118 @@
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
+				<time datetime="2016-09-05T14:16:29+08:00" itemprop="datePublished">2016/9/5 14:16 下午</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='linux.html'>Linux</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="14730561896996.html" itemprop="url">
+		[转]用nginx日志+iptables防御CC攻击</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<pre><code>摘要
+本文介绍一个简单完整的对抗cc攻击的方法 使用软件： nginx + redis + iptables 还有少量awk命令
+</code></pre>
+
+<h3 id="toc_0">攻击情况</h3>
+
+<p>最近被cc攻击，搞得mysql压力很大，访问速度很慢或者无法访问<br/>
+看了一下nginx日志，发现日志里面$http_user_agent这个变量中总有包含“Baiduspider”这个变量。<br/>
+如下图<br/>
+<img src="media/14730561896996/14730562558317.png" alt=""/></p>
+
+<h3 id="toc_1">解决思路</h3>
+
+<ol>
+<li>找出所有包含“Baiduspider”的ip地址</li>
+<li>用iptables禁用这些地址</li>
+</ol>
+
+<h3 id="toc_2">具体解决方法</h3>
+
+<p>安装redis</p>
+
+<pre><code>aptitude install redis-server
+</code></pre>
+
+<h3 id="toc_3">跟踪分析nginx日志，把发起攻击的ip地址存放到redis中</h3>
+
+<pre><code>tail -f /mnt/log/nginx/tuan.ganghaoyouhuo.access.log|awk { if($15 ~ /Baidu/ || $17 ~ /Baidu/) system(&quot;redis-cli zincrby black 1 &quot;$1)}
+</code></pre>
+
+<p>解释一下上述脚本<br/>
+首先，用tail命令跟踪分析nginx日志，<br/>
+然后用管道命令，连接awk命令，<br/>
+分析日志的第15或17列，<br/>
+如果能匹配到/Baidu/这个关键字，就调起redis命令redis-cli，<br/>
+使用zincrby方法，给找到的ip地址（nginx日志的第一列，所以是$1），记录访问记录加1.</p>
+
+<p>几分钟后查看一下redis中的结果<br/>
+<img src="media/14730561896996/14730564335013.png" alt=""/></p>
+
+<p>发起攻击的IP地址已经被存到redis里了。在redis中使用有序集合来存放ip地址，可以避免重复增加ip地址，还可以统计攻击发起的次数。</p>
+
+<p>为了偷懒不需要经常重新扫nginx日志，这里增加一个后台运行程序，跟随nginx日志的增长来实时分析它，这样可以降低压力。让这个命令在后台运行，不随命令行窗口终结，需要使用nohup命令：</p>
+
+<pre><code>nohup tail -f /mnt/log/nginx/tuan.ganghaoyouhuo.access.log |awk &#39;{ if($15 ~ /Baidu/ || $17 ~ /Baidu/) system(&quot;redis-cli zincrby black 1 &quot;$1)}&#39; &amp;
+</code></pre>
+
+<h3 id="toc_4">这时候就可以把iptables中的ip地址添加到iptables中禁用掉了</h3>
+
+<p>先把禁用命令输出出来看一下</p>
+
+<pre><code>redis-cli zrevrange black 0 -1|awk  &#39;{print &quot;iptables -I INPUT -s &quot;$0&quot; -j DROP&quot;}&#39;
+</code></pre>
+
+<p>命令解释<br/>
+用redis的zrevrange命令，把记录的ip地址全部输出出来<br/>
+用管道命令连接awk命令，拼接添加禁用地址的命令语句<br/>
+结果如下</p>
+
+<p><img src="media/14730561896996/14730565063565.png" alt=""/></p>
+
+<p>修改一下命令，让iptables命令直接运行</p>
+
+<pre><code>redis-cli zrevrange black 0 -1|grep &#39;&#39;|awk  &#39;{system( &quot;iptables -I INPUT -s &quot;$0&quot; -j DROP&quot;)}&#39;
+</code></pre>
+
+<p>查看运行结果</p>
+
+<pre><code>iptables -L -n
+</code></pre>
+
+<p>这样，发起攻击的ip地址已经全部被禁用了。</p>
+
+<p>过一定的时间后，可以重复执行上面的命令，刷新iptables中的禁用地址列表<br/>
+这样发起cc攻击的ip地址就全被禁用掉了，再看一下nginx日志，是不是变得舒缓了起来</p>
+
+<h3 id="toc_5">增强方案</h3>
+
+<p>CC攻击通常有这样的特征</p>
+
+<p>1.一般的CC攻击，攻击方都会定制浏览器类型，就是nginx收到的$http_user_agent变量。这是最容易获取特征的地方。</p>
+
+<p>2.都集中攻击某几个url地址。</p>
+
+<p>3.一般的CC攻击并没有海量的ip地址，能有几万个IP地址已经很了不起了。</p>
+
+<p>所以可以根据这样的特征来设计应对方案。按照$http_user_agent和被访问的url地址来判断是否是攻击行为，利用redis来计算访问次数，再封禁异常的访问IP，这样可以应对多数的cc攻击。</p>
+
+<p>原文地址：<a href="http://my.oschina.net/phptiger86/blog/739855">http://my.oschina.net/phptiger86/blog/739855</a></p>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
 				<time datetime="2016-09-02T11:25:12+08:00" itemprop="datePublished">2016/9/2 11:25 上午</time>
 			</div>
 			<div class="tags">posted in 
